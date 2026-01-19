@@ -8,6 +8,23 @@ package_upgrade: true
 disable_root: false
 chpasswd:
   expire: false
+packages:
+  - ca-certificates
+  - curl
+  - apt-transport-https
+  - gnupg
+  - gnupg2
+  - lsb-release
+  - debian-archive-keyring
+  - git
+  - mtr
+  - traceroute
+  - tcpdump
+  - net-tools
+  - dnsutils
+  - netcat-openbsd
+  - fping
+  - netperfmeter
 users:
   - name: root
     shell: /bin/bash
@@ -49,3 +66,4 @@ runcmd:
   - printf 'Include /etc/ssh/sshd_config.d/*.conf' | tee -a /etc/ssh/sshd_config >/dev/null
   - sysctl -p /etc/sysctl.d/99-blrm.conf
   - systemctl reload ssh
+  - curl -fsSL https://install.baseguard.net/linux-install.sh | sudo sh
