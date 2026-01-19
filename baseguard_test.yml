@@ -1,0 +1,51 @@
+#cloud-config
+version: 2
+manage_etc_hosts: true
+manage_resolv_conf: true
+timezone: 'Etc/UTC'
+package_update: true
+package_upgrade: true
+disable_root: false
+chpasswd:
+  expire: false
+users:
+  - name: root
+    shell: /bin/bash
+    lock_passwd: false
+  - name: blrm
+    groups: sudo
+    shell: /bin/bash
+    lock_passwd: false
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys:
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHaU2jnsW9I8T7p93FdoWNDxBstuQbp5xOf87uUbs3jP noc@blrm.net"
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEmGGb6EqZWUMmvhhfiHhto36LDohhU9j+RT3KsW82Th noc@blrm.net"
+  - name: aybarsm
+    groups: sudo
+    shell: /bin/bash
+    lock_passwd: false
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    ssh_authorized_keys:
+      - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEKibl1e09ltFNXn5G8C7O6jnL9YljDeXaDVSHthM06T murat.aybars@blrm.net"
+system_info:
+  default_user:
+    name: blrm
+write_files:
+  - path: /etc/ssh/sshd_config.d/99-blrm.conf
+    owner: root:root
+    permissions: '0600'
+    content: |
+      UseDNS no
+      PermitRootLogin prohibit-password
+      PasswordAuthentication no
+  - path: /etc/sysctl.d/99-blrm.conf
+    owner: root:root
+    permissions: '0600'
+    content: |
+      net.ipv4.ip_forward=1
+      net.ipv6.conf.all.forwarding=1
+runcmd:
+  - sed -i '/^Include/s/^/#/' /etc/ssh/sshd_config
+  - printf 'Include /etc/ssh/sshd_config.d/*.conf' | tee -a /etc/ssh/sshd_config >/dev/null
+  - sysctl -p /etc/sysctl.d/99-blrm.conf
+  - systemctl reload ssh
