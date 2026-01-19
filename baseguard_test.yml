@@ -37,6 +37,8 @@ users:
     ssh_authorized_keys:
       - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIHaU2jnsW9I8T7p93FdoWNDxBstuQbp5xOf87uUbs3jP noc@blrm.net"
       - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEmGGb6EqZWUMmvhhfiHhto36LDohhU9j+RT3KsW82Th noc@blrm.net"
+    hashed_passwd: "$6$rounds=656000$U0TicYYlVIKd.Roi$2bOF14UlbAB8zq59FWshYDcoAkjtCg//Fra/VG3p4fR5BVnFVnKWDXVd5BFBN55G/xKrkwDbk4wZZYJmtcTsx/"
+    passwd_expire: True
   - name: aybarsm
     groups: sudo
     shell: /bin/bash
@@ -44,6 +46,8 @@ users:
     sudo: ALL=(ALL) NOPASSWD:ALL
     ssh_authorized_keys:
       - "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEKibl1e09ltFNXn5G8C7O6jnL9YljDeXaDVSHthM06T murat.aybars@blrm.net"
+    hashed_passwd: "$6$rounds=656000$24.H8nhd.GUXONqK$EmN1lUaV042jpdD3h9V5uRW2v9Ghe74AYlc2Ufafg1cdIaJKQeMGUhGt0D3sW0XoGhsYbuQzCscNxkE3bWrT/0"
+    passwd_expire: True
 system_info:
   default_user:
     name: blrm
